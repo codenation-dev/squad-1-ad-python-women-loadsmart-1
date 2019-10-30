@@ -4,12 +4,15 @@ from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.detail import DetailView
 from django.http import HttpResponseNotFound, HttpResponseBadRequest, HttpResponse
 from rest_framework import viewsets
-from rest_framework.generics import get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
+from rest_framework.generics import get_object_or_404, UpdateAPIView, RetrieveAPIView
 
 from events.models import Event, Agent
 from .serializers import (
     EventModelSerializer,
-    AgentModelSerializer
+    AgentModelSerializer,
+    EditModelSerializer
 )
 
 
@@ -92,6 +95,19 @@ class EventDetail(DetailView):
             'event': event,
             }
         return render(request, 'events/detail.html', context=context)
+
+
+class EditEventApiView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
+
+    queryset = Event.objects.all()
+    serializer_class = EditModelSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
 
 
 class AgentAPIViewSet(viewsets.ModelViewSet):
