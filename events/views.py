@@ -1,5 +1,5 @@
 from django.db.models import QuerySet, Count
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.detail import DetailView
 from django.http import HttpResponseNotFound, HttpResponseBadRequest, HttpResponse
@@ -89,26 +89,34 @@ class EventFilter(ListView):
 class EventDetail(DetailView):
 
     def get(self, request, event_id):
-
         event = Event.objects.get(pk=event_id)
         context = {
             'event': event,
             }
         return render(request, 'events/detail.html', context=context)
 
+class ArchievedEventApiView(DetailView):
 
-class EditEventApiView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
+    def get(self, request, pk):
+        event = Event.objects.get(pk=pk)
+        event.archived = True
+        event.save()
+        return redirect('events:events-list')
 
-    queryset = Event.objects.all()
-    serializer_class = EditModelSerializer
+class UnarchivedEventApiView(DetailView):
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def get(self, request, pk):
+        event = Event.objects.get(pk=pk)
+        event.archived = False
+        event.save()
+        return redirect('events:events-list')
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+class DeleteEventApiView(DetailView):
 
-
+    def get(self, request, pk):
+        event = Event.objects.get(pk=pk)
+        event.delete()
+        return redirect('events:events-list')
 
 class AgentAPIViewSet(viewsets.ModelViewSet):
     queryset = Agent.objects.all()

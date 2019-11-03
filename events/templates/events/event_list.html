@@ -34,6 +34,9 @@
                     <th>Level</th>
                     <th>Log</th>
                     <th>Eventos</th>
+                    <th>Visualize</th>
+                    <th>Archieve/Unarchive</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +59,19 @@
                                 </a>
                             </div>
 
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="{% url 'events:archived' event.pk %}" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'events:unarchived' event.pk %}" class="btn btn-warning"><i class="fas fa-eraser"></i></a>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="{% url 'events:delete' event.pk %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 {% empty %}
