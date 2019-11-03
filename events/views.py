@@ -11,8 +11,7 @@ from rest_framework.generics import get_object_or_404, UpdateAPIView, RetrieveAP
 from events.models import Event, Agent
 from .serializers import (
     EventModelSerializer,
-    AgentModelSerializer,
-    EditModelSerializer
+    AgentModelSerializer
 )
 
 
