@@ -10,7 +10,7 @@ class AgentManager(models.Manager):
     """
 
     def get_agent_level(self, envName):
-    """ method for query agent by environment"""
+        """ method for query agent by environment"""
         queryset = self.get_queryset().filter(env=envName)
         return queryset
 
@@ -39,7 +39,7 @@ class Agent(models.Model):
     )
 
     def __str__(self):
-    """String representation of an agent object """
+        """String representation of an agent object """
         return f'{self.name}, {self.status}, {self.env},{self.version}, {self.address}'
 
 
@@ -58,6 +58,7 @@ class Event(models.Model):
 
     @property
     def frequencia(self):
+        """calc frequency of event """
         freq=0
         for e in Event.objects.all():
             if self.level == e.level and self.agent_id == e.agent_id:
@@ -75,6 +76,6 @@ class Event(models.Model):
     )
 
     def __str__(self):
-    """String representation of an event object """
+        """String representation of an event object """
         return f'{self.title}, {self.level}, {self.data}, {self.archived}, {self.agent}'
 

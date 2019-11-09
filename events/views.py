@@ -9,7 +9,7 @@ from django.http import (
     HttpResponseNotFound, 
     HttpResponseBadRequest, 
     HttpResponse
-)
+    )
 from rest_framework import viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework_extensions.mixins import NestedViewSetMixin
@@ -66,8 +66,7 @@ class EventFilter(ListView):
         dict_frequencia = dict()
         for grupo in event_group_by:
             for event in Event.objects.all():
-                if grupo['agent__id'] == event.agent_id and 
-                grupo['level'] == event.level:
+                if grupo['agent__id'] == event.agent_id and grupo['level'] == event.level:
                       dict_frequencia[event.id] = (
                           event,grupo['freq'],grupo['level'])
         return dict_frequencia
@@ -112,10 +111,8 @@ class EventFilter(ListView):
         if self.env is not None and self.env!="env":
            self.retorno_query= self.retorno_query.filter(
                agent__env=self.env)
-        if self.search_for is not None and 
-        self.search_for!="buscaCampo":
-            if self.pesquisa_text is not None and 
-            not self.pesquisa_text == "":
+        if self.search_for is not None and self.search_for!="buscaCampo":
+            if self.pesquisa_text is not None and not self.pesquisa_text == "":
                 if self.search_for == "level":
                     self.retorno_query = self.retorno_query.filter(
                         level__icontains=self.pesquisa_text)
