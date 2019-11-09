@@ -134,7 +134,7 @@ class EventFilter(ListView):
 
     def get(self, request, *args, **kwargs):
         """
-        Display events based on filters :model:`myapp.MyModel`.
+        Display events based on filters :model:`events.Event`.
 
         **Context**
 
@@ -146,7 +146,6 @@ class EventFilter(ListView):
         :template:`events/events_list.html`
 
         """        
-        
         if request.method == "GET":
             self.env = request.GET.get('envName')
             self.orderBy = request.GET.get('orderBy')
