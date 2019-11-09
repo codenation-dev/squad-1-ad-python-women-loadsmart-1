@@ -18,11 +18,12 @@ router.register(r'agents', views.AgentAPIViewSet)
 router.register(r'users', views.UserAPIViewSet)
 router.register(r'groups', views.GroupAPIViewSet)
 
-#resource to get acess to get, post ,put , delete of /agent/id/event
 class NestedDefaultRouter(NestedRouterMixin, DefaultRouter):
+    """
+    Resource to get acess to get, post ,put , delete of /agent/id/event
+    """
     pass
 
-#router for get acess to "get", "post", "put", "delete" of endpoint /agent/id/event
 router_agent_events = NestedDefaultRouter()
 agents_router = router_agent_events.register(r'agent', views.AgentAPIViewSet)
 agents_router.register('events', views.EventAPIViewSet, basename='events-agents',
@@ -32,8 +33,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/', include(agents_router.router.urls)),
     path('', EventFilter.as_view(), name='events-list'),
-    # re_path(r'agents/(?P<id_agent>\d+)/events/(?P<id_event>\d+)', agent_id_event_id , name='events_by_agents'),
-    # path('<str:envName>', EventFilter.as_view(), name='filter_events'),
     path('<int:event_id>', EventDetail.as_view(), name='detail'),
     re_path(r'(?P<pk>\d+)?/shelved', ShelveEvent.as_view(), name = 'shelved'),
     re_path(r'(?P<pk>\d+)?/unshelved', UnshelveEvent.as_view(), name = 'unshelved'),

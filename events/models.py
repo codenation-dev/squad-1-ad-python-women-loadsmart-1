@@ -5,12 +5,21 @@ from django.core.validators import validate_ipv4_address
 
 
 class AgentManager(models.Manager):
+    """
+    Interface for query Agent by environment
+    """
+
     def get_agent_level(self, envName):
+    """ method for query agent by environment"""
         queryset = self.get_queryset().filter(env=envName)
         return queryset
 
 
 class Agent(models.Model):
+    """
+    Stores a single Agent entry, related to :model:`auth.User`
+    """
+    
     ENV_CHOICES =[
         ("producao","producao"),
         ("homologacao","homologacao"),
@@ -30,13 +39,18 @@ class Agent(models.Model):
     )
 
     def __str__(self):
+    """String representation of an agent object """
         return f'{self.name}, {self.status}, {self.env},{self.version}, {self.address}'
 
 
 class Event(models.Model):
+    """
+    Stores a single Event entry, related to :model:`events.Agent`
+    """
+    
     LEVEL_CHOICES = [
         (5,"critical"),
-        ( 4,"debug"),
+        (4,"debug"),
         (3,"error"),
         (2,"warning"),
         (1,"information"),
@@ -61,5 +75,6 @@ class Event(models.Model):
     )
 
     def __str__(self):
+    """String representation of an event object """
         return f'{self.title}, {self.level}, {self.data}, {self.archived}, {self.agent}'
 
